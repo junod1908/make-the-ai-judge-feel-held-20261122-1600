@@ -25,6 +25,11 @@ ENTRY = (
 
 
 def main() -> None:
+    # The gate allows 1 to 280 Unicode code points, not only whitespace.
+    # Fail loudly here rather than shipping an invalid entry.
+    code_points = len(ENTRY)
+    assert 1 <= code_points <= 280, f"entry is {code_points} code points"
+    assert ENTRY.strip(), "entry must not be only whitespace"
     out = Path("/output/entry.txt")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(ENTRY, encoding="utf-8")
